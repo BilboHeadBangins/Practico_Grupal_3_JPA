@@ -4,12 +4,13 @@ import javax.persistence.Column;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
+import lombok.ToString;
 
 /**
  *
  * @author italo
  */
-
+@ToString
 @MappedSuperclass
 public abstract class AuditoriaApp extends EntityId{
     @Column(name="fecha_alta",nullable = false)

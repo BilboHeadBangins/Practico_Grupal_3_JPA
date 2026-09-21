@@ -4,11 +4,13 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
+import lombok.ToString;
 
 /**
  *
  * @author italo
  */
+@ToString
 @MappedSuperclass
 public abstract class EntityId {
     @Id
