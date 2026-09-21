@@ -23,7 +23,6 @@
     
     <!-- datos de conexión de referencia. Los reales no están expuestos por motivos de seguridad -->
     <properties>
-      <property name="javax.persistence.schema-generation.database.action" value="validate"/>
       <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>
       <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://direccion_ip:5432/facturacion"/>
       <property name="javax.persistence.jdbc.user" value="postgres"/>
