@@ -36,16 +36,18 @@ public class Practico_Grupal_3_JPA {
             consigna9(em);
             consigna10(em);
             consigna11(em);
+            consigna12(em);
+            
             
             consigna15(em);
             consigna16(em);
             consigna17(em);
             consigna18(em);
-            
+            consigna19(em);
             consigna20(em);
             */
             
-            consigna19(em);
+            
             
             em.getTransaction().commit();
         } 
@@ -274,9 +276,35 @@ public class Practico_Grupal_3_JPA {
             System.out.println("descripcion detalle: "+detalle.getDescripcion());
         }
     }
-    private static void consigna12(EntityManager em){}
-    private static void consigna13(EntityManager em){}
-    private static void consigna14(EntityManager em){}
+    private static void consigna12(EntityManager em){
+        /*
+        Consigna: Listar la denominación de todos los artículos junto con la denominación
+        de su marca asociada, incluyendo también aquellos artículos que no posean una
+        marca asignada.
+        */
+        
+        String jpql = "SELECT a.denominacion, a.marca.denominacion FROM Articulo a"
+            + " LEFT JOIN a.marca m";
+        TypedQuery query = em.createQuery(jpql, Object[].class);
+        List<Object[]> listaObjetos = query.getResultList();
+        
+        for (Object[] par : listaObjetos) {
+            System.out.println("Articulo encontrado:");
+            System.out.println("denominación artículo: "+par[0]);
+            System.out.println("denominación marca: "+par[1]);
+            System.out.println();
+        }
+    }
+    private static void consigna13(EntityManager em){
+        String jpql;
+        TypedQuery query;
+        List<Object> listaObjetos;
+    }
+    private static void consigna14(EntityManager em){
+        String jpql;
+        TypedQuery query;
+        List<Object> listaObjetos;
+    }
     private static void consigna15(EntityManager em){
         /*
         Consigna 15: Obtener la descripción del punto de venta, la cantidad de facturas
