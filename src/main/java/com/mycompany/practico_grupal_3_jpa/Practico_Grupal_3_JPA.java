@@ -35,11 +35,14 @@ public class Practico_Grupal_3_JPA {
             consigna8(em);
             consigna9(em);
             consigna10(em);
+            consigna11(em);
             
             consigna15(em);
+            consigna16(em);
+            consigna17(em);
             */
             
-            consigna11(em);  
+            
             em.getTransaction().commit();
         } 
         
@@ -116,7 +119,7 @@ public class Practico_Grupal_3_JPA {
             List<Articulo> articulos3 = query3.getResultList();
             
             for (Articulo art : articulos3) {
-                System.out.println("denominación rubro: "+art.getMarca().getDenominacion());
+                System.out.println("denominación rubro: "+art.getRubro().getDenominacion());
             }    
     }
     private static void consigna4(EntityManager em){
@@ -145,10 +148,10 @@ public class Practico_Grupal_3_JPA {
             */
             System.out.println("Consigna 5");
             
-            String jpql5 = "SELECT fv FROM FacturaVenta fv WHERE fv.estado = :estado AND fv.importeTotal = :importeTotal AND fv.fechaAnulacion IS NULL";
+            String jpql5 = "SELECT fv FROM FacturaVenta fv WHERE fv.estado = :estado AND fv.importeTotal > :importeTotalMin AND fv.fechaAnulacion IS NULL";
             TypedQuery query5 = em.createQuery(jpql5, FacturaVenta.class);
             query5.setParameter("estado", "EMITIDA");
-            query5.setParameter("importeTotal", 10000.0);
+            query5.setParameter("importeTotalMin", 10000.0);
             
             List<FacturaVenta> fvs5 = query5.getResultList();
             
@@ -299,17 +302,44 @@ public class Practico_Grupal_3_JPA {
         Consigna: Obtener los nombres de los usuarios de carga que hayan registrado más
         de 5 facturas de venta en el sistema
         */
-        String jpql16 = "SELECT u.nombre,u.apellido FROM Usuario u"
-                + " GROUP BY u.Id";
-    
+        String jpql16 = "SELECT fv.usuarioCarga.nombre, fv.usuarioCarga.apellido FROM FacturaVenta fv"
+                + " GROUP BY fv.usuarioCarga.nombre, fv.usuarioCarga.apellido"
+                + " HAVING COUNT(fv.Id)>5";
+        TypedQuery query16 = em.createQuery(jpql16, Object[].class);
+        List<Object[]> paresNombreApellido = query16.getResultList();
+        
+        for (Object[] par : paresNombreApellido) {
+            System.out.print("Usuario encontrado: ");
+            for (int i = 0; i < par.length;i++) {
+                System.out.print(par[i]+" ");
+            }
+            System.out.println();
+        }
+        
     }
     private static void consigna17(EntityManager em){
         /*
         Consigna: Obtener la denominación de cada marca, la cantidad total de unidades
         vendidas (SUM(cantidad)) y el subtotal acumulado, agrupado por marca.
-        */   
+        */
+        System.out.println("Consigna 17");
+        
+        String jpql17 = "SELECT d.listaPrecioArticulo.articulo.marca.denominacion, SUM(d.cantidad), SUM(d.importeSubtotal)"
+            + " FROM FacturaVentaDetalle d"
+            + " GROUP BY d.listaPrecioArticulo.articulo.marca.Id, d.listaPrecioArticulo.articulo.marca.denominacion";
+        TypedQuery query17 = em.createQuery(jpql17, Object[].class);
+        List<Object[]> tuplasConsulta17 = query17.getResultList();
+        for(Object[] tupla : tuplasConsulta17){
+            System.out.println("denominacion:"+tupla[0]);
+            System.out.println("cantidad total unidades vendidas:"+tupla[1]);
+            System.out.println("subtotal acumulado:"+tupla[2]);
+        }
+        
+        
     }
-    private static void consigna18(EntityManager em){}
+    private static void consigna18(EntityManager em){
+        
+    }
     private static void consigna19(EntityManager em){}
     private static void consigna20(EntityManager em){}
 }
