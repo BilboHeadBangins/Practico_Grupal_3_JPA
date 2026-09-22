@@ -4,6 +4,7 @@ package com.mycompany.practico_grupal_3_jpa.entities;
 import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -14,13 +15,13 @@ import javax.persistence.Table;
 @Entity
 @Table (name="articulo")
 public class Articulo extends AuditoriaApp {
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Rubro rubro;
     @Column(nullable = false)
     private String codigo;
     @Column(nullable = false)
     private String denominacion;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Marca marca;
 
     public Articulo() {

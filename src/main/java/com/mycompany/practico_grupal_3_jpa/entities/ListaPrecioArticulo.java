@@ -4,6 +4,7 @@ package com.mycompany.practico_grupal_3_jpa.entities;
 import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -15,12 +16,12 @@ import javax.persistence.Table;
 @Entity
 @Table (name="lista_precio_articulo")
 public class ListaPrecioArticulo extends AuditoriaApp{
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="lista_precio_id", nullable = false)
     private ListaPrecio listaPrecio;
     @Column(name="precio_venta_id", nullable = false)
     private double precioVenta;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="articulo_id", nullable = false)
     private Articulo articulo;
 

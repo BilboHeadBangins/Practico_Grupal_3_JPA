@@ -3,6 +3,7 @@ package com.mycompany.practico_grupal_3_jpa.entities;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -14,10 +15,10 @@ import javax.persistence.Table;
 @Entity
 @Table(name="factura_venta_detalle")        
 public class FacturaVentaDetalle extends EntityId {
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="factura_id", nullable = false)
     private FacturaVenta factura;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="lista_precio_articulo_id", nullable = false)
     private ListaPrecioArticulo listaPrecioArticulo;
     private String descripcion;

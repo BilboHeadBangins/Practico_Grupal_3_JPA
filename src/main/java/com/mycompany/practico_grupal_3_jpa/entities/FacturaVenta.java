@@ -11,13 +11,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import lombok.ToString;
 
 /**
  *
  * @author italo
  */
-@ToString
 @Entity
 @Table(name = "factura_venta")
 public class FacturaVenta extends AuditoriaApp{

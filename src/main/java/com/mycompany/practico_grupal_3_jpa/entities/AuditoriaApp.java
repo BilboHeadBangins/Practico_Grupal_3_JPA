@@ -1,16 +1,15 @@
 package com.mycompany.practico_grupal_3_jpa.entities;
 import java.time.LocalDateTime;
 import javax.persistence.Column;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
-import lombok.ToString;
 
 /**
  *
  * @author italo
  */
-@ToString
 @MappedSuperclass
 public abstract class AuditoriaApp extends EntityId{
     @Column(name="fecha_alta",nullable = false)
@@ -19,13 +18,13 @@ public abstract class AuditoriaApp extends EntityId{
     protected LocalDateTime fechaBaja;
     @Column(name="fecha_modificacion",nullable = false)
     protected LocalDateTime fechaModificacion;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "usuario_carga", nullable=false)
     protected Usuario usuarioCarga;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "usuario_baja")
     protected Usuario usuarioBaja;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "usuario_modificacion", nullable=false)
     protected Usuario usuarioModificacion;
 

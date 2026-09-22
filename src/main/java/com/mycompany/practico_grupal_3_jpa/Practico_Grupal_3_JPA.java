@@ -24,8 +24,6 @@ public class Practico_Grupal_3_JPA {
         try {
             em.getTransaction().begin();
             
-            
-            
             /*
             consigna1(em);
             consigna2(em);
@@ -36,10 +34,12 @@ public class Practico_Grupal_3_JPA {
             consigna7(em);
             consigna8(em);
             consigna9(em);
+            consigna10(em);
             
             consigna15(em);
             */
             
+            consigna11(em);  
             em.getTransaction().commit();
         } 
         
@@ -73,7 +73,7 @@ public class Practico_Grupal_3_JPA {
         List<FacturaVenta> fvs = query1.getResultList();
             
         for (FacturaVenta fv : fvs) {
-            System.out.println(fv.toString());
+            System.out.println("id facturaVenta: "+fv.getId());
         }
     }
     private static void consigna2(EntityManager em){
@@ -228,8 +228,45 @@ public class Practico_Grupal_3_JPA {
             System.out.println("Numero punto de venta: "+pdv9.getNumero());
         }
     }
-    private static void consigna10(EntityManager em){}
-    private static void consigna11(EntityManager em){}
+    private static void consigna10(EntityManager em){
+        /*
+        Consigna: Consultar todas las facturas de venta creadas por un usuario en
+        particular navegando por su nombre de usuario de carga (usuarioCarga.usuario).
+        */
+        System.out.println("Consigna 10");
+        
+        String jpql10 = "SELECT fv FROM FacturaVenta fv WHERE "
+            + "fv.usuarioCarga.usuario = :nombreUsuario";
+        String nomUsuario = "mariosantana008";
+        
+        TypedQuery query10 = em.createQuery(jpql10, FacturaVenta.class);
+        query10.setParameter("nombreUsuario", nomUsuario);
+        List<FacturaVenta> facturas10 = query10.getResultList();
+        
+        System.out.println("Facturas cargadas por el usuario "+nomUsuario+":");
+        for(FacturaVenta fv : facturas10){
+            System.out.println(fv.toString());
+        }
+        
+    }
+    private static void consigna11(EntityManager em){
+        /*
+        Consigna 11: Obtener todos los detalles de factura (FacturaVentaDetalle) que
+        correspondan a facturas emitidas por un punto de venta determinado.
+        */
+        System.out.println("Consigna 11");
+        
+        String jpql11 = "SELECT d FROM FacturaVentaDetalle d JOIN FETCH d.factura fv"
+            + " WHERE fv.fechaEmision IS NOT NULL AND"
+            + " fv.puntoVenta.numero = :numeroPuntoVenta";
+        TypedQuery query11 = em.createQuery(jpql11, FacturaVentaDetalle.class);
+        query11.setParameter("numeroPuntoVenta", 200);
+        List<FacturaVentaDetalle> detalles = query11.getResultList();
+        
+        for (FacturaVentaDetalle detalle : detalles) {
+            System.out.println("descripcion detalle: "+detalle.getDescripcion());
+        }
+    }
     private static void consigna12(EntityManager em){}
     private static void consigna13(EntityManager em){}
     private static void consigna14(EntityManager em){}
