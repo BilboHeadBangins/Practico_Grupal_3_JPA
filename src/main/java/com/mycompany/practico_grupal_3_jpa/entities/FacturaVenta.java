@@ -1,5 +1,5 @@
 
-package com.mycompany.practico_grupal_2_jpa.entities;
+package com.mycompany.practico_grupal_3_jpa.entities;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -20,19 +20,10 @@ import lombok.ToString;
 @ToString
 @Entity
 @Table(name = "factura_venta")
-public class FacturaVenta extends EntityId{
+public class FacturaVenta extends AuditoriaApp{
     private Long numero;
     @Column(name="fecha_emision",nullable = false)
     private LocalDate fechaEmision;
-    @ManyToOne
-    @JoinColumn(name="cliente_id", nullable = true)
-    private Cliente cliente;
-    @ManyToOne
-    @JoinColumn(name="condicion_iva_id", nullable=false)
-    private CondicionIva condicionIva;
-    @ManyToOne
-    @JoinColumn(name="tipo_moneda_id", nullable=false)
-    private TipoMoneda tipoMoneda;
     @ManyToOne
     @JoinColumn(name="punto_venta_id", nullable=false)
     private PuntoVenta puntoVenta;
@@ -58,15 +49,12 @@ public class FacturaVenta extends EntityId{
     public FacturaVenta() {
     }
 
-    public FacturaVenta(Long numero, LocalDate fechaEmision, Cliente cliente, CondicionIva condicionIva,
-            TipoMoneda tipoMoneda, PuntoVenta puntoVenta, double importeCobrado,
+    public FacturaVenta(Long numero, LocalDate fechaEmision,
+            PuntoVenta puntoVenta, double importeCobrado,
             double importeSaldo, double importeTotal, String cae, LocalDate caeFechaVencimiento,
             String resultadoAfip, String motivoRechazo, String estado, LocalDate fechaAnulacion, String observaciones) {
         this.numero = numero;
         this.fechaEmision = fechaEmision;
-        this.cliente = cliente;
-        this.condicionIva = condicionIva;
-        this.tipoMoneda = tipoMoneda;
         this.puntoVenta = puntoVenta;
         this.importeCobrado = importeCobrado;
         this.importeSaldo = importeSaldo;
@@ -96,29 +84,6 @@ public class FacturaVenta extends EntityId{
         this.fechaEmision = fechaEmision;
     }
 
-    public Cliente getCliente() {
-        return cliente;
-    }
-
-    public void setCliente(Cliente cliente) {
-        this.cliente = cliente;
-    }
-
-    public CondicionIva getCondicionIva() {
-        return condicionIva;
-    }
-
-    public void setCondicionIva(CondicionIva condicionIva) {
-        this.condicionIva = condicionIva;
-    }
-
-    public TipoMoneda getTipoMoneda() {
-        return tipoMoneda;
-    }
-
-    public void setTipoMoneda(TipoMoneda tipoMoneda) {
-        this.tipoMoneda = tipoMoneda;
-    }
 
     public PuntoVenta getPuntoVenta() {
         return puntoVenta;

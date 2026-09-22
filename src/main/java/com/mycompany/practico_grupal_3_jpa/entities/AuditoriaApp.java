@@ -1,61 +1,33 @@
-
-package com.mycompany.practico_grupal_2_jpa.entities;
-
+package com.mycompany.practico_grupal_3_jpa.entities;
 import java.time.LocalDateTime;
 import javax.persistence.Column;
-import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.MappedSuperclass;
+import lombok.ToString;
 
 /**
  *
  * @author italo
  */
-@Entity
-@Table (name="lista_precio_articulo")
-public class ListaPrecioArticulo extends AuditoriaApp{
+@ToString
+@MappedSuperclass
+public abstract class AuditoriaApp extends EntityId{
+    @Column(name="fecha_alta",nullable = false)
+    protected LocalDateTime fechaAlta;
+    @Column(name="fecha_baja")
+    protected LocalDateTime fechaBaja;
+    @Column(name="fecha_modificacion",nullable = false)
+    protected LocalDateTime fechaModificacion;
     @ManyToOne
-    @JoinColumn(name="lista_precio_id", nullable = false)
-    private ListaPrecio listaPrecio;
-    @Column(name="precio_venta_id", nullable = false)
-    private double precioVenta;
+    @JoinColumn(name = "usuario_carga", nullable=false)
+    protected Usuario usuarioCarga;
     @ManyToOne
-    @JoinColumn(name="articulo_id", nullable = false)
-    private Articulo articulo;
-
-    public ListaPrecioArticulo() {
-    }
-
-    public ListaPrecioArticulo(ListaPrecio listaPrecio, double precioVenta, Articulo articulo) {
-        this.listaPrecio = listaPrecio;
-        this.precioVenta = precioVenta;
-        this.articulo = articulo;
-    }
-
-    public ListaPrecio getListaPrecio() {
-        return listaPrecio;
-    }
-
-    public void setListaPrecio(ListaPrecio listaPrecio) {
-        this.listaPrecio = listaPrecio;
-    }
-
-    public double getPrecioVenta() {
-        return precioVenta;
-    }
-
-    public void setPrecioVenta(double precioVenta) {
-        this.precioVenta = precioVenta;
-    }
-
-    public Articulo getArticulo() {
-        return articulo;
-    }
-
-    public void setArticulo(Articulo articulo) {
-        this.articulo = articulo;
-    }
+    @JoinColumn(name = "usuario_baja")
+    protected Usuario usuarioBaja;
+    @ManyToOne
+    @JoinColumn(name = "usuario_modificacion", nullable=false)
+    protected Usuario usuarioModificacion;
 
     public LocalDateTime getFechaAlta() {
         return fechaAlta;

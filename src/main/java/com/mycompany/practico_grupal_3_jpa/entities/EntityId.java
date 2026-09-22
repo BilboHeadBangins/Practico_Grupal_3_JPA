@@ -1,4 +1,4 @@
-package com.mycompany.practico_grupal_2_jpa.entities;
+package com.mycompany.practico_grupal_3_jpa.entities;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
