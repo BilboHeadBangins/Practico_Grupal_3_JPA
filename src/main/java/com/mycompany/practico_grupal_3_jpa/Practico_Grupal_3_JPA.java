@@ -40,8 +40,12 @@ public class Practico_Grupal_3_JPA {
             consigna15(em);
             consigna16(em);
             consigna17(em);
+            consigna18(em);
+            
+            consigna20(em);
             */
             
+            consigna19(em);
             
             em.getTransaction().commit();
         } 
@@ -338,8 +342,76 @@ public class Practico_Grupal_3_JPA {
         
     }
     private static void consigna18(EntityManager em){
+        /*
+        Consigna: Obtener la lista de todas las marcas que tienen al menos un artículo que
+        haya sido facturado en alguna factura de venta.
+        */
+        
+        String jpql = "SELECT m FROM Marca m WHERE "
+            + "EXISTS (SELECT d.listaPrecioArticulo.articulo FROM FacturaVentaDetalle d"
+            + " WHERE d.listaPrecioArticulo.articulo.marca.Id = m.Id)";
+        TypedQuery query = em.createQuery(jpql, Marca.class);
+        List<Marca> marcas = query.getResultList();
+        
+        for (Marca marca : marcas) {
+            System.out.print("Marca encontrada: ");
+            System.out.print("codigo: "+marca.getCodigo());
+            System.out.print(", denominacion: "+marca.getDenominacion());
+            System.out.println();
+        }
+    }
+    private static void consigna19(EntityManager em){
+        String jpql = "SELECT a FROM Articulo a WHERE "
+            + "NOT EXISTS (SELECT d.listaPrecioArticulo.articulo FROM FacturaVentaDetalle d"
+            + " WHERE d.listaPrecioArticulo.articulo.Id = a.Id)";
+        TypedQuery query = em.createQuery(jpql, Articulo.class);
+        List<Articulo> articulos = query.getResultList();
+        
+        if(articulos.isEmpty())
+        {
+            System.out.println("No se encontraron articulos que cumplan la condición.");
+        }
+        else
+        {
+            for (Articulo articulo : articulos)
+            {
+                System.out.print("Articulo encontrado: ");
+                System.out.print("codigo: "+articulo.getCodigo());
+                System.out.print(", denominacion: "+articulo.getDenominacion());
+                System.out.println();
+            }
+        }
         
     }
-    private static void consigna19(EntityManager em){}
-    private static void consigna20(EntityManager em){}
+    private static void consigna20(EntityManager em){
+        /*
+        Consigna: Listar el número de factura, su importe total y una columna calculada
+        llamada "Categoría" que clasifique la factura como:
+        o "ALTO VALOR" si el importeTotal es mayor a $50,000.
+        o "MEDIO VALOR" si el importeTotal está entre $10,000 y $50,000.
+        o "BAJO VALOR" si el importeTotal es menor a $10,000. Ordenar los
+        resultados de mayor a menor importe.
+        */
+        
+        String jpql = "SELECT fv.numero, fv.importeTotal, "
+            + "CASE "
+            + "  WHEN fv.importeTotal > 50000 THEN 'ALTO VALOR' "
+            + "  WHEN fv.importeTotal BETWEEN 10000 AND 50000 THEN 'MEDIO VALOR'"
+            + "  ELSE 'BAJO VALOR' "
+            + " END AS categoria"
+            + " FROM FacturaVenta fv"
+            + " ORDER BY fv.importeTotal DESC";
+        
+        TypedQuery query = em.createQuery(jpql, Object[].class);
+        List<Object[]> resultados = query.getResultList();
+        
+        for (Object[] fila : resultados) {
+            System.out.print("Factura encontrada: ");
+            
+            System.out.print("numero factura: "+fila[0]);
+            System.out.print(", importe total: "+fila[1]);
+            System.out.print(", categoria: "+fila[2]);   
+            System.out.println();
+        }
+    }
 }
