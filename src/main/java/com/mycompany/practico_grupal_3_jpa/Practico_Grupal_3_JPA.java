@@ -23,8 +23,11 @@ public class Practico_Grupal_3_JPA {
         
         try {
             em.getTransaction().begin();
-            
+
             /*
+            
+            */
+            
             consigna1(em);
             consigna2(em);
             consigna3(em);
@@ -37,18 +40,15 @@ public class Practico_Grupal_3_JPA {
             consigna10(em);
             consigna11(em);
             consigna12(em);
-            
-            
+            consigna13(em);
+            consigna14(em);
             consigna15(em);
             consigna16(em);
             consigna17(em);
             consigna18(em);
             consigna19(em);
             consigna20(em);
-            */
-            
-            
-            
+   
             em.getTransaction().commit();
         } 
         
@@ -282,6 +282,7 @@ public class Practico_Grupal_3_JPA {
         de su marca asociada, incluyendo también aquellos artículos que no posean una
         marca asignada.
         */
+        System.out.println("Consigna 12");
         
         String jpql = "SELECT a.denominacion, a.marca.denominacion FROM Articulo a"
             + " LEFT JOIN a.marca m";
@@ -296,14 +297,40 @@ public class Practico_Grupal_3_JPA {
         }
     }
     private static void consigna13(EntityManager em){
-        String jpql;
-        TypedQuery query;
-        List<Object> listaObjetos;
+        System.out.println("consigna 13");
+        /*
+        Consigna: Obtener todas las facturas de venta que contengan al menos un detalle
+        de artículo perteneciente a una marca específica.
+        */
+        String jpql="SELECT DISTINCT fv FROM FacturaVenta fv "
+            + " JOIN fv.detalles d"
+            + " JOIN d.listaPrecioArticulo lpa"
+            + " JOIN lpa.articulo a"
+            + " JOIN a.marca m"
+            + " WHERE m.Id = :Idmarca";
+        TypedQuery query = em.createQuery(jpql, FacturaVenta.class);
+        Long idBuscado = 1L;
+        query.setParameter("Idmarca", idBuscado);
+        List<FacturaVenta> listaFv = query.getResultList();
+        
+        for (FacturaVenta fv : listaFv) {
+            System.out.println("Id factura: "+fv.getId());
+            System.out.println();
+        }
     }
     private static void consigna14(EntityManager em){
-        String jpql;
-        TypedQuery query;
-        List<Object> listaObjetos;
+        System.out.println("Consigna 14");
+        
+        String jpql = "SELECT fv FROM FacturaVenta fv"
+            + " WHERE fv.importeTotal > (SELECT AVG(fv2.importeTotal) FROM FacturaVenta fv2)";
+        TypedQuery query = em.createQuery(jpql, FacturaVenta.class);
+        List<FacturaVenta> listaFv =query.getResultList();
+        
+        for (FacturaVenta fv : listaFv) {
+            System.out.println("Id factura: "+fv.getId());
+            System.out.println("Importe total: "+fv.getImporteTotal());
+            System.out.println();
+        }
     }
     private static void consigna15(EntityManager em){
         /*
@@ -334,6 +361,8 @@ public class Practico_Grupal_3_JPA {
         Consigna: Obtener los nombres de los usuarios de carga que hayan registrado más
         de 5 facturas de venta en el sistema
         */
+        System.out.println("Consigna 16");
+        
         String jpql16 = "SELECT fv.usuarioCarga.nombre, fv.usuarioCarga.apellido FROM FacturaVenta fv"
                 + " GROUP BY fv.usuarioCarga.nombre, fv.usuarioCarga.apellido"
                 + " HAVING COUNT(fv.Id)>5";
@@ -374,6 +403,7 @@ public class Practico_Grupal_3_JPA {
         Consigna: Obtener la lista de todas las marcas que tienen al menos un artículo que
         haya sido facturado en alguna factura de venta.
         */
+        System.out.println("Consigna 18");
         
         String jpql = "SELECT m FROM Marca m WHERE "
             + "EXISTS (SELECT d.listaPrecioArticulo.articulo FROM FacturaVentaDetalle d"
@@ -389,6 +419,8 @@ public class Practico_Grupal_3_JPA {
         }
     }
     private static void consigna19(EntityManager em){
+        System.out.println("Consigna 19");
+        
         String jpql = "SELECT a FROM Articulo a WHERE "
             + "NOT EXISTS (SELECT d.listaPrecioArticulo.articulo FROM FacturaVentaDetalle d"
             + " WHERE d.listaPrecioArticulo.articulo.Id = a.Id)";
@@ -420,6 +452,7 @@ public class Practico_Grupal_3_JPA {
         o "BAJO VALOR" si el importeTotal es menor a $10,000. Ordenar los
         resultados de mayor a menor importe.
         */
+        System.out.println("Consigna 20");
         
         String jpql = "SELECT fv.numero, fv.importeTotal, "
             + "CASE "
