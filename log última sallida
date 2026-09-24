@@ -656,7 +656,7 @@ Factura encontrada: numero factura: 939, importe total: 29700.0, categoria: MEDI
 Factura encontrada: numero factura: 936, importe total: 24000.5, categoria: MEDIO VALOR
 Factura encontrada: numero factura: 942, importe total: 21450.0, categoria: MEDIO VALOR
 sept 23, 2026 2:59:55 P. M. org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl$PoolState stop
-INFO: HHH10001008: Cleaning up connection pool [jdbc:postgresql://192.168.1.45:5432/facturacion]
+INFO: HHH10001008: Cleaning up connection pool [jdbc:postgresql://********:5432/facturacion]
 ------------------------------------------------------------------------
 BUILD SUCCESS
 ------------------------------------------------------------------------
